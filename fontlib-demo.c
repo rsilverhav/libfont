@@ -5,7 +5,7 @@
 
 int main(int argc, char * argv[])
 {
-  unsigned char * bitmap = getBitmapWithText();
+  unsigned char * bitmap = getBitmapWithText("asd", "font.ttf");
 
 
   int i;

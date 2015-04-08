@@ -2,7 +2,7 @@
 extern "C" {
 #endif
 
-unsigned char * getBitmapWithText();
+unsigned char * getBitmapWithText(const char * text, const char *fontPath);
 
 #ifdef __cplusplus
 }

@@ -78,6 +78,8 @@ unsigned char * getBitmapWithText(const char * text, const char * fontPath)
     x += kern * scale;
   }
 
+  printf("DONE WITH STRING %s, width = %i\n", text, x);
+
   free(fontBuffer);
 
   return bitmap;
