@@ -60,6 +60,7 @@ FontBitmapData getBitmapWithText(const char * text, const char *fontPath, int fo
 
   /* create a bitmap for the phrase */
   unsigned char* bitmap = malloc(b_w * b_h);
+  memset(bitmap, 0, b_w*b_h*sizeof(unsigned char));
 
 
 
