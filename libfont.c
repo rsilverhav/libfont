@@ -5,7 +5,7 @@
 #define STB_TRUETYPE_IMPLEMENTATION 
 #include "stb_truetype.h"
 
-unsigned char * getBitmapWithText(const char * text, const char * fontPath)
+FontBitmapData getBitmapWithText(const char * text, const char *fontPath)
 {
   /* load font file */
   long size;
@@ -78,10 +78,13 @@ unsigned char * getBitmapWithText(const char * text, const char * fontPath)
     x += kern * scale;
   }
 
-  printf("DONE WITH STRING %s, width = %i\n", text, x);
-
+  //cleanup
   free(fontBuffer);
+  
+  FontBitmapData bitmapData;
+  bitmapData.data = bitmap;
+  bitmapData.width = x;
 
-  return bitmap;
+  return bitmapData;
 
 }

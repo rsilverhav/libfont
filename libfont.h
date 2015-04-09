@@ -2,7 +2,13 @@
 extern "C" {
 #endif
 
-unsigned char * getBitmapWithText(const char * text, const char *fontPath);
+  typedef struct font_bitmap_data{
+    unsigned char * data;
+    int width;
+
+  } FontBitmapData;
+
+  FontBitmapData getBitmapWithText(const char * text, const char *fontPath);
 
 #ifdef __cplusplus
 }
