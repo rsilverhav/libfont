@@ -5,7 +5,7 @@
 #define STB_TRUETYPE_IMPLEMENTATION 
 #include "stb_truetype.h"
 
-FontBitmapData getBitmapWithText(const char * text, const char *fontPath)
+FontBitmapData getBitmapWithText(const char * text, const char *fontPath, int fontSize)
 {
   /* load font file */
   long size;
@@ -32,17 +32,36 @@ FontBitmapData getBitmapWithText(const char * text, const char *fontPath)
     printf("failed\n");
   }
 
-  int b_w = 512; /* bitmap width */
-  int b_h = 512; /* bitmap height */
-  int l_h = 256; /* line height */
+
+  const char* word = text;
+  /* calculate font scaling */
+  int l_h = fontSize; /* line height */
+  float scale = stbtt_ScaleForPixelHeight(&info, l_h);
+  int width = 0; /* width of the text */
+
+
+  int i;
+  for(i = 0; i < strlen(word); ++i)
+  {
+    int ax;
+    stbtt_GetCodepointHMetrics(&info, word[i], &ax, 0);
+    width += ax * scale;
+
+    /* add kerning */
+    int kern;
+    kern = stbtt_GetCodepointKernAdvance(&info, word[i], word[i + 1]);
+    width += kern * scale;
+  }
+
+  width = (int)(((float) width) / 256.0f + 1.0f)*256;
+
+  int b_w = width; /* bitmap width */
+  int b_h = l_h; /* bitmap height */
 
   /* create a bitmap for the phrase */
   unsigned char* bitmap = malloc(b_w * b_h);
 
-  /* calculate font scaling */
-  float scale = stbtt_ScaleForPixelHeight(&info, l_h);
 
-  const char* word = text;
 
   int x = 0;
 
@@ -53,7 +72,6 @@ FontBitmapData getBitmapWithText(const char * text, const char *fontPath)
   ascent *= scale;
   descent *= scale;
 
-  int i;
   for (i = 0; i < strlen(word); ++i)
   {
     /* get bounding box for character (may be offset to account for chars that dip above or below the line */
@@ -83,7 +101,9 @@ FontBitmapData getBitmapWithText(const char * text, const char *fontPath)
   
   FontBitmapData bitmapData;
   bitmapData.data = bitmap;
-  bitmapData.width = x;
+  bitmapData.width = width;
+  bitmapData.textWidth = x;
+  bitmapData.height = l_h;
 
   return bitmapData;
 

@@ -5,16 +5,8 @@
 
 int main(int argc, char * argv[])
 {
-  unsigned char * bitmap = getBitmapWithText("asd", "font.ttf");
+  FontBitmapData bitmap = getBitmapWithText("hejsan", "font.ttf");
 
-
-  int i;
-  printf("bitmap contains:\n");
-  for(i = 0; i < 10; i++){
-    printf("%u, ", bitmap[i]);
-  }
-  printf("\n");
-
-  free(bitmap);
+  free(bitmap.data);
   return 0;
 }
