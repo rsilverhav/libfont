@@ -55,7 +55,7 @@ FontBitmapData getBitmapWithText(const char * text, const char *fontPath, int fo
 
   width = (int)(((float) width) / 256.0f + 1.0f)*256;
 
-  int b_w = width; /* bitmap width */
+  int b_w = width*4; /* bitmap width */
   int b_h = l_h; /* bitmap height */
 
   /* create a bitmap for the phrase */
